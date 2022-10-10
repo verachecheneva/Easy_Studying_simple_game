@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".choose_right">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/moduleLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Module"
+            android:textSize="22sp"
+            android:layout_marginTop="30dp"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/questionLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/ans1Button"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="30dp"
+            android:text="Question"
+            android:textColor="@color/black"
+            android:textSize="27sp"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/ans1Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_stroke"
+            android:layout_above="@+id/ans2Button"
+            android:layout_marginHorizontal="@dimen/marginButton_horizontal"
+            android:layout_marginVertical="@dimen/marginButton_vertical"
+            android:onClick="checkAnswer"
+            android:text="Ans1"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/ans2Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/marginButton_horizontal"
+            android:layout_marginVertical="@dimen/marginButton_vertical"
+            android:layout_above="@+id/ans3Button"
+            android:background="@drawable/button_stroke"
+            android:onClick="checkAnswer"
+            android:text="Ans2" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/ans3Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/marginButton_horizontal"
+            android:layout_marginVertical="@dimen/marginButton_vertical"
+            android:layout_above="@+id/ans4Button"
+            android:background="@drawable/button_stroke"
+            android:onClick="checkAnswer"
+            android:text="Ans3" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/ans4Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginHorizontal="@dimen/marginButton_horizontal"
+            android:layout_marginVertical="@dimen/marginButton_vertical"
+            android:background="@drawable/button_stroke"
+            android:onClick="checkAnswer"
+            android:text="Ans4" />
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

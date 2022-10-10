@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!--    <dimen name="answerButton_width">"match_parent"</dimen>-->
+<!--    <dimen name="answerButton_height">"wrap_content"</dimen>-->
+    <dimen name="marginButton_horizontal">5dp</dimen>
+    <dimen name="marginButton_vertical">2dp</dimen>
+
+</resources>

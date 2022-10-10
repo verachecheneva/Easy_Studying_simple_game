@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="15dp"
+    tools:context=".add_module">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/moduleNameText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="Module name" />
+
+        <LinearLayout
+            android:id="@+id/formsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/moduleNameText"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/wordsForm0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/rusWord"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Word in english"
+                    android:layout_weight="1"/>
+
+                <EditText
+                    android:id="@+id/engWord"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Word in russian"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            app:srcCompat="@drawable/ic_baseline_add_24"
+            android:layout_below="@id/formsLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/button_rose"
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/saveModuleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/floatingActionButton"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:text="@string/button_save"
+            android:background="@drawable/button_stroke"/>
+
+    </RelativeLayout>
+</ScrollView>
