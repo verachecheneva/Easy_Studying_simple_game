@@ -1,6 +1,8 @@
 package com.example.easy_studying;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -9,6 +11,8 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.example.easy_studying.recycler_view.CustomAdapter;
+import com.example.easy_studying.recycler_view.SwipeToDelete;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
@@ -35,11 +39,26 @@ public class my_modules extends AppCompatActivity {
 
         dataToArray();
 
-        customAdapter = new CustomAdapter(my_modules.this, module_name, module_count_words);
+        customAdapter = new CustomAdapter(my_modules.this, module_id, module_name, module_count_words);
         recyclerView.setAdapter(customAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(my_modules.this));
 
-//        https://www.youtube.com/watch?v=wK-JccC-i4Y
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDelete(this) {
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+                final int position = viewHolder.getAdapterPosition();
+                final String module = customAdapter.getData().get(position);
+                customAdapter.removeModule(position);
+                myDB.deleteOneRow(module);
+//                TODO:: Snack to restore
+//                Snackbar snackbar = Snackbar.make();
+//                snackbar.show();
+            }
+
+        });
+
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
     }
 
     void dataToArray() {

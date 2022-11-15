@@ -14,9 +14,12 @@
         android:theme="@style/Theme.Easy_Studying"
         tools:targetApi="31">
         <activity
+            android:name=".ModuleIndex"
+            android:exported="false" />
+        <activity
             android:name=".add_module"
             android:exported="false"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".my_modules"
             android:exported="false" />

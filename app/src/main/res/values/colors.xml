@@ -10,4 +10,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="button_rose">#D56E91</color>
     <color name="button_press_rose">#B7D56E91</color>
+    <color name="invisible_rose">#97EC97B4</color>
 </resources>

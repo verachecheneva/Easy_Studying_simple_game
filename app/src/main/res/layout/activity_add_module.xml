@@ -25,25 +25,6 @@
             android:layout_below="@+id/moduleNameText"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/wordsForm0"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <EditText
-                    android:id="@+id/rusWord"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Word in english"
-                    android:layout_weight="1"/>
-
-                <EditText
-                    android:id="@+id/engWord"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Word in russian"
-                    android:layout_weight="1"/>
-            </LinearLayout>
         </LinearLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

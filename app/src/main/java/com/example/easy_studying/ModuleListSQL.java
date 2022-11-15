@@ -9,19 +9,35 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 class ModuleListSQL extends SQLiteOpenHelper {
 
     private Context context;
+
     private static final String DATABASE_NAME = "EasyStudying.db";
     private static final int DATABASE_VERSION = 1;
 
-    private static final String TABLE_NAME = "Modules";
-    private static final String COLUMN_ID = "_id";
+    /**
+     * Table Modules
+     */
+
+    private static final String TABLE_NAME_MODULES = "Modules";
+    private static final String COLUMN_MODULE_ID = "module_id";
     private static final String COLUMN_MODULE_NAME = "module_name";
     private static final String COLUMN_DATE_CREATION = "module_creation";
     private static final String COLUMN_COUNT_WORDS = "module_count_words";
+
+    /**
+     * Table Words
+     */
+    private static final String TABLE_NAME_WORDS = "ModuleWords";
+    private static final String COLUMN_WORD_ID = "word_id";
+    private static final String WORD = "module_word";
+    private static final String TRANSLATION = "module_translation";
+    private static final String LEARNED_TEST = "module_test";
+    private static final String LEARNED_WRITING = "module_writing";
 
 
     public ModuleListSQL(@Nullable Context context) {
@@ -31,40 +47,63 @@ class ModuleListSQL extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String query = "CREATE TABLE " + TABLE_NAME +
-                        " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        COLUMN_MODULE_NAME + " TEXT, " +
-                        COLUMN_DATE_CREATION + " DATE, " +
-                        COLUMN_COUNT_WORDS + " INTEGER DEFAULT 0);";
+        String query = "CREATE TABLE " + TABLE_NAME_MODULES +
+                        " (" + COLUMN_MODULE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COLUMN_MODULE_NAME + " TEXT NOT NULL, " +
+                        COLUMN_DATE_CREATION + " DATETIME NOT NULL, " +
+                        COLUMN_COUNT_WORDS + " INTEGER DEFAULT 0 );";
+
+        db.execSQL(query);
+
+        query = "CREATE TABLE " + TABLE_NAME_WORDS +
+                " (" + COLUMN_WORD_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                WORD + " TEXT NOT NULL, " +
+                TRANSLATION + " TEXT NOT NULL, " +
+                LEARNED_TEST + " BIT DEFAULT 0, " +
+                LEARNED_WRITING + " BIT DEFAULT 0, " +
+                COLUMN_MODULE_ID + " INTEGER NOT NULL, " +
+                "FOREIGN KEY ( " + COLUMN_MODULE_ID + " ) REFERENCES Modules( module_id ) ON DELETE CASCADE);";
 
         db.execSQL(query);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_MODULES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_WORDS);
         onCreate(db);
     }
 
-    void addModule(String module_name, int count_words) {
+    boolean addModule(String module_name, ArrayList<String[]> wordsPair) {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        java.text.DateFormat dateFormat = new java.text.SimpleDateFormat("yyyy/MM/dd");
-        Date date = new Date();
-        dateFormat.format(date);  // в этом я совссем не уверенна
-        cv.put(COLUMN_MODULE_NAME, module_name);
-        cv.put(COLUMN_DATE_CREATION, dateFormat.format(date));
-        cv.put(COLUMN_COUNT_WORDS, count_words);
+        db.beginTransaction();
+        try {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(COLUMN_MODULE_NAME, module_name);
+            contentValues.put(COLUMN_DATE_CREATION, System.currentTimeMillis());
+            contentValues.put(COLUMN_COUNT_WORDS, wordsPair.size());
+            long module_id = db.insert(TABLE_NAME_MODULES, null, contentValues);
 
-        long result = db.insert(TABLE_NAME, null, cv);
-        if (result == -1) {
-            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
+            for (String[] pair : wordsPair) {
+                ContentValues cv = new ContentValues();
+                cv.put(WORD, pair[0]);
+                cv.put(TRANSLATION, pair[1]);
+                cv.put(COLUMN_MODULE_ID, module_id);
+                db.insert(TABLE_NAME_WORDS, null, cv);
+            }
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            db.endTransaction();
+            System.out.println(e.getMessage());
+            return false;
         }
+        db.endTransaction();
+        return true;
     }
+
     Cursor readAllModules() {
-        String query = "SELECT * FROM " + TABLE_NAME;
+        String query = "SELECT * FROM " + TABLE_NAME_MODULES + " ORDER BY " + COLUMN_DATE_CREATION
+                + " DESC;";
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = null;
@@ -72,5 +111,15 @@ class ModuleListSQL extends SQLiteOpenHelper {
             cursor = db.rawQuery(query, null);
         }
         return cursor;
+    }
+
+    void deleteOneRow(String module_id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        long result = db.delete(TABLE_NAME_MODULES, COLUMN_MODULE_ID + "=?", new String[]{module_id});
+        if (result == -1){
+            Toast.makeText(context, "Failed to Delete.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Successfully Deleted.", Toast.LENGTH_SHORT).show();
+        }
     }
 }
