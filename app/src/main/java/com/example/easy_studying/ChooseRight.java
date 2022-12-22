@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-public class choose_right extends AppCompatActivity {
+public class ChooseRight extends AppCompatActivity {
 
     private TextView moduleLabel;
     private TextView questionLabel;

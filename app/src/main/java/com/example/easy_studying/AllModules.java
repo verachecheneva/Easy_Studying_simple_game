@@ -6,23 +6,25 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
-import com.example.easy_studying.recycler_view.CustomAdapter;
+import com.example.easy_studying.recycler_view.ModuleAdapter;
+import com.example.easy_studying.recycler_view.RecyclerItemClickListener;
 import com.example.easy_studying.recycler_view.SwipeToDelete;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
-public class my_modules extends AppCompatActivity {
+public class AllModules extends AppCompatActivity {
 
     RecyclerView recyclerView;
 
     ModuleListSQL myDB;
     ArrayList<String> module_id, module_name, module_creation, module_count_words;
-    CustomAdapter customAdapter;
+    ModuleAdapter moduleAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +33,7 @@ public class my_modules extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.my_modules_view);
 
-        myDB = new ModuleListSQL(my_modules.this);
+        myDB = new ModuleListSQL(AllModules.this);
         module_id = new ArrayList<>();
         module_name = new ArrayList<>();
         module_creation = new ArrayList<>();
@@ -39,17 +41,17 @@ public class my_modules extends AppCompatActivity {
 
         dataToArray();
 
-        customAdapter = new CustomAdapter(my_modules.this, module_id, module_name, module_count_words);
-        recyclerView.setAdapter(customAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(my_modules.this));
+        moduleAdapter = new ModuleAdapter(AllModules.this, module_id, module_name, module_count_words);
+        recyclerView.setAdapter(moduleAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(AllModules.this));
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDelete(this) {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
                 final int position = viewHolder.getAdapterPosition();
-                final String module = customAdapter.getData().get(position);
-                customAdapter.removeModule(position);
-                myDB.deleteOneRow(module);
+                final String module = moduleAdapter.getData().get(position);
+                moduleAdapter.removeModule(position);
+                myDB.deleteOneModule(module);
 //                TODO:: Snack to restore
 //                Snackbar snackbar = Snackbar.make();
 //                snackbar.show();
@@ -59,12 +61,24 @@ public class my_modules extends AppCompatActivity {
 
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(AllModules.this, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        final String module = moduleAdapter.getData().get(position);
+                        Intent intent = new Intent(AllModules.this, ModuleIndex.class);
+                        intent.putExtra("module_id", module);
+                        startActivity(intent);
+                    }
+                })
+        );
+
     }
 
     void dataToArray() {
         Cursor cursor = myDB.readAllModules();
         if (cursor.getCount() == 0) {
-            Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No modules found", Toast.LENGTH_SHORT).show();
         } else {
             while (cursor.moveToNext()) {
                 module_id.add(cursor.getString(0));

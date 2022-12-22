@@ -16,7 +16,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 
 
-public class add_module extends AppCompatActivity {
+public class AddModule extends AppCompatActivity {
 
     LinearLayout formsLayout;
     EditText moduleName;
@@ -46,7 +46,7 @@ public class add_module extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ModuleListSQL moduleDB = new ModuleListSQL(add_module.this);
+                ModuleListSQL moduleDB = new ModuleListSQL(AddModule.this);
                 if (!correct_data()) {
                     return;
                 }
@@ -54,12 +54,12 @@ public class add_module extends AppCompatActivity {
                         wordsPair);
 
                 if (!result) {
-                    Toast.makeText(add_module.this, "Failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddModule.this, "Failed", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(add_module.this, "Success", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddModule.this, "Success", Toast.LENGTH_SHORT).show();
                 }
 
-                Intent intent = new Intent(add_module.this, MainActivity.class);
+                Intent intent = new Intent(AddModule.this, MainActivity.class);
                 startActivity(intent);
             }
         });

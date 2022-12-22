@@ -17,14 +17,14 @@
             android:name=".ModuleIndex"
             android:exported="false" />
         <activity
-            android:name=".add_module"
+            android:name=".AddModule"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".my_modules"
+            android:name=".AllModules"
             android:exported="false" />
         <activity
-            android:name=".choose_right"
+            android:name=".ChooseRight"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

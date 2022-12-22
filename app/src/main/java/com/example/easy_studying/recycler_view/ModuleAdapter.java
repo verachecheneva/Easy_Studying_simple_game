@@ -12,14 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.easy_studying.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
+public class ModuleAdapter extends RecyclerView.Adapter<ModuleAdapter.ViewHolder> {
 
-    private Context context;
-    private ArrayList module_id, module_name, module_count_words;
+    private final Context context;
+    private ArrayList<String> module_id, module_name, module_count_words;
 
-    public CustomAdapter(Context context, ArrayList module_id, ArrayList module_name, ArrayList module_count_words) {
+    public ModuleAdapter(Context context, ArrayList<String> module_id, ArrayList<String> module_name, ArrayList<String> module_count_words) {
         this.context = context;
         this.module_name = module_name;
         this.module_count_words = module_count_words;
@@ -54,7 +53,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         module_name.remove(module_pos);
         module_count_words.remove(module_pos);
         notifyItemRemoved(module_pos);
-//        https://zatackcoder.com/swipe-to-delete-and-undo-feature-in-android-recyclerview/
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

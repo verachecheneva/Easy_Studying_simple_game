@@ -113,7 +113,7 @@ class ModuleListSQL extends SQLiteOpenHelper {
         return cursor;
     }
 
-    void deleteOneRow(String module_id){
+    void deleteOneModule(String module_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         long result = db.delete(TABLE_NAME_MODULES, COLUMN_MODULE_ID + "=?", new String[]{module_id});
         if (result == -1){
@@ -121,5 +121,41 @@ class ModuleListSQL extends SQLiteOpenHelper {
         } else {
             Toast.makeText(context, "Successfully Deleted.", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    void deleteOneWord(String word_id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        long result = db.delete(TABLE_NAME_WORDS, COLUMN_WORD_ID + "=?", new String[]{word_id});
+        if (result == -1){
+            Toast.makeText(context, "Failed to Delete.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Successfully Deleted.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    Cursor getModuleInfo(String module_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(
+                TABLE_NAME_MODULES,
+                null,
+                COLUMN_MODULE_ID + "=?",
+                new String[]{module_id},
+                null,
+                null,
+                null);
+        return cursor;
+    }
+
+    Cursor getModuleWords(String module_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(
+                TABLE_NAME_WORDS,
+                new String[] {COLUMN_WORD_ID, WORD, TRANSLATION},
+                COLUMN_MODULE_ID + "=?",
+                new String[]{module_id},
+                null,
+                null,
+                null);
+        return cursor;
     }
 }
