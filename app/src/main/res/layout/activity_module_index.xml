@@ -6,19 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".AllModules">
 
-    <TextView
-        android:id="@+id/moduleName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp"
-        android:text="TextView"
-        android:textColor="@color/black"
-        android:textSize="34sp"
-        app:layout_constraintEnd_toEndOf="@+id/my_words_view"
-        app:layout_constraintStart_toStartOf="@+id/my_words_view"
-        tools:ignore="MissingConstraints" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/my_words_view"
         android:layout_width="match_parent"

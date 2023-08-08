@@ -42,10 +42,7 @@ public class ModuleIndex extends AppCompatActivity {
         module_id = prevIntent.getStringExtra("module_id");
         moduleData();
 
-        moduleNameTitle = findViewById(R.id.moduleName);
-        moduleNameTitle.setText(module_name);
-
-        wordAdapter = new WordAdapter(ModuleIndex.this, word_id, word, translation);
+        wordAdapter = new WordAdapter(ModuleIndex.this, word_id, word, translation, module_name, module_creation);
         recyclerView.setAdapter(wordAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(ModuleIndex.this));
 
@@ -53,8 +50,11 @@ public class ModuleIndex extends AppCompatActivity {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
                 final int position = viewHolder.getAdapterPosition();
+                if (position == 0 ) {
+                    return;   // the first line is module info
+                }
                 final String word = wordAdapter.getData().get(position);
-                wordAdapter.removeModule(position);
+                wordAdapter.removeWord(position - 1);
                 myDB.deleteOneWord(word);
 //                TODO:: Snack to restore
 //                Snackbar snackbar = Snackbar.make();

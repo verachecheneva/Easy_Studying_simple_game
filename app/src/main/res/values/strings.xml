@@ -3,4 +3,6 @@
     <string name="new_module">New module</string>
     <string name="my_modules">My modules</string>
     <string name="button_save">Save module</string>
+    <string name="test_button">Test practice</string>
+    <string name="writing_button">Writing practice</string>
 </resources>

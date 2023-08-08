@@ -50,6 +50,9 @@ public class SwipeToDelete extends ItemTouchHelper.Callback {
     public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView,
                             @NonNull RecyclerView.ViewHolder viewHolder,
                             float dX, float dY, int actionState, boolean isCurrentlyActive) {
+        if (viewHolder.getAdapterPosition() == 0) {
+            return;
+        }
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         View itemView = viewHolder.itemView;
         int itemHeight = itemView.getHeight();
